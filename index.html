@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Gift</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ff7eb3, #ff758c);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .flower {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            animation: sway 3s infinite ease-in-out;
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .petal:nth-child(1) {
+            transform: translateX(-50%) rotate(0deg);
+        }
+        .petal:nth-child(2) {
+            transform: translateX(-50%) rotate(45deg);
+        }
+        .petal:nth-child(3) {
+            transform: translateX(-50%) rotate(90deg);
+        }
+        .petal:nth-child(4) {
+            transform: translateX(-50%) rotate(135deg);
+        }
+        .petal:nth-child(5) {
+            transform: translateX(-50%) rotate(180deg);
+        }
+        .petal:nth-child(6) {
+            transform: translateX(-50%) rotate(225deg);
+        }
+        .petal:nth-child(7) {
+            transform: translateX(-50%) rotate(270deg);
+        }
+        .petal:nth-child(8) {
+            transform: translateX(-50%) rotate(315deg);
+        }
+
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: yellow;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .letter-container {
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .letter {
+            width: 200px;
+            height: 100px;
+            background: white;
+            border: 2px solid #ff758c;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .letter-top {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: #ff758c; /* Add color to the cover of the letter */
+            top: 0;
+            left: 0;
+            transform-origin: bottom;
+            transform: rotateX(0deg);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .letter.open .letter-top {
+            transform: rotateX(-180deg);
+        }
+
+        .letter-content {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #ff758c;
+            line-height: 1.5;
+        }
+
+        .letter.open .letter-content {
+            display: block;
+        }
+
+        .letter-content a {
+            text-decoration: none; /* Remove the underline */
+            color: #ff758c; /* Match the text color with the letter */
+            font-weight: normal;
+        }
+
+        .flower-drop {
+            position: absolute;
+            top: 50px;
+            opacity: 0;
+            animation: drop 1.5s ease-in-out forwards;
+        }
+
+        @keyframes drop {
+            0% {
+                top: 50px;
+                opacity: 1;
+            }
+            100% {
+                top: 200px;
+                opacity: 0;
+            }
+        }
+
+        .flower-container {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="letter-container">
+        <div class="letter" onclick="openLetter(this)">
+            <div class="letter-top"></div>
+            <div class="letter-content">
+                <a href="https://app.sane.fyi/public/acbccab6-e787-11ef-b4f4-17c105604bc3?utm_source=share-menu&utm_medium=web" target="_blank">Happy Valentine's Day!</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let flowerInterval;
+
+        function openLetter(element) {
+            element.classList.toggle('open');
+            if (element.classList.contains('open')) {
+                createFlowerDrops(element); // Start flower drops immediately after opening the letter
+                flowerInterval = setInterval(() => createFlowerDrops(element), 200); // Continue dropping flowers every 200ms
+            } else {
+                clearInterval(flowerInterval); // Stop dropping flowers when the letter is closed
+            }
+        }
+
+        function createFlowerDrops(letterElement) {
+            const flowerContainer = document.createElement('div');
+            flowerContainer.classList.add('flower-container');
+
+            // Create multiple flowers falling in a spread pattern
+            for (let i = 0; i < 5; i++) {
+                const flower = document.createElement('div');
+                flower.classList.add('flower-drop');
+                
+                // Randomize horizontal positions to spread the flowers
+                const randomX = Math.random() * 200 - 100; // Random horizontal offset
+
+                flower.style.left = `${randomX}px`;
+
+                flower.innerHTML = ` 
+                    <div class="flower">
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="petal"></div>
+                        <div class="center"></div>
+                    </div>
+                `;
+                flowerContainer.appendChild(flower);
+            }
+
+            letterElement.appendChild(flowerContainer);
+        }
+    </script>
+</body>
+</html>
